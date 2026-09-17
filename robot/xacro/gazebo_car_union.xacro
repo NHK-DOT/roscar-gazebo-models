@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<robot name="armbot" xmlns:xacro="http://wiki.ros.org/xacro">
+  <xacro:include filename="gazebo_head.xacro"/>
+  <xacro:include filename="gazebo_car.xacro"/>
+  <xacro:include filename="gazebo_laser.xacro"/>
+  <xacro:include filename="gazebo_camera.xacro"/>
+  <xacro:include filename="gazebo_sensors.xacro"/>
+
+  <!-- Keep the existing navigation API while using the VM project's four-wheel skid drive. -->
+  <gazebo>
+    <plugin name="mobile_base_controller" filename="libgazebo_ros_skid_steer_drive.so">
+      <updateRate>100.0</updateRate>
+      <robotNamespace>/</robotNamespace>
+      <leftFrontJoint>front_left_wheel_joint</leftFrontJoint>
+      <rightFrontJoint>front_right_wheel_joint</rightFrontJoint>
+      <leftRearJoint>back_left_wheel_joint</leftRearJoint>
+      <rightRearJoint>back_right_wheel_joint</rightRearJoint>
+      <wheelSeparation>${wheel_y * 2}</wheelSeparation>
+      <wheelDiameter>${wheel_radius * 2}</wheelDiameter>
+      <robotBaseFrame>base_footprint</robotBaseFrame>
+      <torque>20</torque>
+      <commandTopic>/cmd_vel</commandTopic>
+      <odometryTopic>/odom</odometryTopic>
+      <odometryFrame>odom</odometryFrame>
+      <broadcastTF>true</broadcastTF>
+      <odometryRate>30.0</odometryRate>
+      <covariance_x>0.001</covariance_x>
+      <covariance_y>0.001</covariance_y>
+      <covariance_yaw>0.01</covariance_yaw>
+    </plugin>
+  </gazebo>
+</robot>

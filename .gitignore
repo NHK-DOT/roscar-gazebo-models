@@ -1,0 +1,5 @@
+*.core
+*.log
+*.tar.gz
+.idea/
+.vscode/

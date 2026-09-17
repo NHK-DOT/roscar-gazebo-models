@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<sdf version="1.6">
+  <model name="traffic_light_yellow_lens">
+    <static>false</static>
+    <link name="lens">
+      <gravity>false</gravity>
+      <kinematic>true</kinematic>
+      <visual name="yellow_visual">
+        <pose>0 -0.046 0.55 1.570796 0 0</pose>
+        <cast_shadows>false</cast_shadows>
+        <geometry><cylinder><radius>0.041</radius><length>0.016</length></cylinder></geometry>
+        <material>
+          <ambient>1.0 0.72 0.005 1</ambient>
+          <diffuse>1.0 0.72 0.005 1</diffuse>
+          <emissive>0.58 0.40 0.003 1</emissive>
+          <specular>0.15 0.15 0.15 1</specular>
+        </material>
+      </visual>
+    </link>
+  </model>
+</sdf>

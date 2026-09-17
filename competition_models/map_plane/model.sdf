@@ -1,0 +1,34 @@
+<?xml version="1.0" ?>
+<sdf version="1.6">
+  <model name="map_plane">
+    <static>true</static> <!-- 地面静止不动 -->
+    <link name="link">
+      <!-- 视觉部分 -->
+      <visual name="visual">
+        <geometry>
+          <plane>
+            <normal>0 0 1</normal>
+            <size>4.2 4.2</size> <!-- 修改平面大小为 4.2x4.2 -->
+          </plane>
+        </geometry>
+        <material>
+          <script>
+            <uri>model://map_plane/materials/scripts</uri>
+            <uri>model://map_plane/materials/textures</uri>
+            <name>map/material</name>  <!-- 对应 map.material 中定义的名称 -->
+          </script>
+        </material>
+      </visual>
+
+      <!-- 碰撞部分 -->
+      <collision name="collision">
+        <geometry>
+          <plane>
+            <normal>0 0 1</normal>  <!-- 确保碰撞体与视觉体的朝向一致 -->
+            <size>4.2 4.2</size> <!-- 修改碰撞体的大小为 4.2x4.2 -->
+          </plane>
+        </geometry>
+      </collision>
+    </link>
+  </model>
+</sdf>

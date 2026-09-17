@@ -1,0 +1,124 @@
+<!-- 激光雷达组件定义文件  -->
+
+<!-- 此文件定义了机器人的激光雷达组件，包括支撑杆和激光传感器    -->
+
+<robot name="my_laser" xmlns:xacro="http://wiki.ros.org/xacro">
+    <!-- ============ 激光雷达支撑杆参数 ========================== -->
+    
+    <!-- 支撑杆尺寸参数 -->
+    <xacro:property name="support_length" value="0.12" />     <!-- 支撑杆长度 -->
+    <xacro:property name="support_radius" value="0.01" />    <!-- 支撑杆半径 -->
+    
+    <!-- 支撑杆安装位置参数 -->
+    <xacro:property name="support_x" value="0.0" />           <!-- X方向偏移，控制支撑杆前后位置 -->
+    <xacro:property name="support_y" value="0.0" />           <!-- Y方向偏移，控制支撑杆左右位置 -->
+    <!-- 支撑杆高度计算，确保与底座正确连接 -->
+    <xacro:property name="support_z" value="${base_link_height / 2 + support_length / 2}" /> 
+    
+    <!-- 支撑杆物理属性参数 -->
+    <xacro:property name="support_m" value="0.02" />          <!-- 支撑杆质量，影响动力学特性 --> 
+
+    <link name="support">
+        <visual>
+            <geometry>
+                <cylinder radius="${support_radius}" length="${support_length}" />
+            </geometry>
+            <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+            <material name="red">
+                <color rgba="0.8 0.2 0.0 0.8" />
+            </material>
+        </visual>
+
+        <collision>
+            <geometry>
+                <cylinder radius="${support_radius}" length="${support_length}" />
+            </geometry>
+            <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+        </collision>
+
+        <xacro:cylinder_inertial_matrix m="${support_m}" r="${support_radius}" h="${support_length}" />
+
+    </link>
+
+    <joint name="support2base_link" type="fixed">
+        <parent link="base_link" />
+        <child link="support" />
+        <origin xyz="${support_x} ${support_y} ${support_z}" />
+    </joint>
+
+    <gazebo reference="support">
+        <material>Gazebo/White</material>
+    </gazebo>
+
+    <!-- ============ 激光雷达传感器参数 ========================== -->
+    <xacro:property name="laser_length" value="0.05" /> 
+    <xacro:property name="laser_radius" value="0.03" /> 
+    <xacro:property name="laser_x" value="0.0" /> 
+    <xacro:property name="laser_y" value="0.0" /> 
+    <xacro:property name="laser_z" value="${support_length / 2 + laser_length / 2}" /> 
+
+    <xacro:property name="laser_m" value="0.1" /> 
+
+    <link name="laser">
+        <visual>
+            <geometry>
+                <cylinder radius="${laser_radius}" length="${laser_length}" />
+            </geometry>
+            <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+            <material name="black" />
+        </visual>
+        <collision>
+            <geometry>
+                <cylinder radius="${laser_radius}" length="${laser_length}" />
+            </geometry>
+            <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+        </collision>
+        <xacro:cylinder_inertial_matrix m="${laser_m}" r="${laser_radius}" h="${laser_length}" />
+    </link>
+
+    <joint name="laser2support" type="fixed">
+        <parent link="support" />
+        <child link="laser" />
+        <origin xyz="${laser_x} ${laser_y} ${laser_z}" />
+    </joint>
+
+    <gazebo reference="laser">
+        <material>Gazebo/Black</material>
+        
+        <!-- 添加激光雷达传感器插件 -->
+        <sensor type="ray" name="laser_sensor">
+            <pose>0 0 0 0 0 0</pose>
+            
+            <!-- 关键设置：将此项设为 false 即可隐藏激光束 -->
+            <visualize>false</visualize>
+            
+            <update_rate>40</update_rate>
+            <ray>
+                <scan>
+                    <horizontal>
+                        <samples>720</samples>
+                        <resolution>1</resolution>
+                        <min_angle>-2.35619</min_angle> <!-- 扫描范围 -135度 -->
+                        <max_angle>2.35619</max_angle> <!-- 扫描范围 +135度 -->
+                    </horizontal>
+                </scan>
+                <range>
+                    <min>0.10</min>
+                    <max>12.0</max>
+                    <resolution>0.01</resolution>
+                </range>
+                <noise>
+                    <type>gaussian</type>
+                    <mean>0.0</mean>
+                    <stddev>0.01</stddev>
+                </noise>
+            </ray>
+            
+            <!-- ROS插件，用于发布 /scan 话题 -->
+            <plugin name="gazebo_ros_laser_controller" filename="libgazebo_ros_laser.so">
+                <topicName>/scan</topicName>
+                <frameName>laser</frameName>
+            </plugin>
+        </sensor>
+    </gazebo>
+</robot>

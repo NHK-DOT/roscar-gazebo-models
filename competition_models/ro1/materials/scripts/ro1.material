@@ -1,0 +1,19 @@
+material Roscar/PeopleB
+{
+  technique
+  {
+    pass
+    {
+      cull_hardware none
+      cull_software none
+      ambient 1 1 1 1
+      diffuse 1 1 1 1
+      texture_unit
+      {
+        texture people_b.jpg
+        filtering anisotropic
+        max_anisotropy 8
+      }
+    }
+  }
+}

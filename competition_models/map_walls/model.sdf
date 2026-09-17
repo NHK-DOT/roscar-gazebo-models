@@ -1,0 +1,70 @@
+<?xml version="1.0"?>
+<sdf version="1.6">
+  <model name="map_walls">
+    <static>true</static>
+
+    <link name="south_wall">
+      <pose>0 -2.1 0 0 0 0</pose>
+      <collision name="collision">
+        <pose>0 0 0.35 0 0 0</pose>
+        <geometry><box><size>4.3 0.1 0.7</size></box></geometry>
+      </collision>
+      <visual name="visual">
+        <pose>0 0 0.35 0 0 0</pose>
+        <geometry><box><size>4.3 0.1 0.7</size></box></geometry>
+        <material>
+          <ambient>0.760784 0.662745 0.627451 1</ambient>
+          <diffuse>0.760784 0.662745 0.627451 1</diffuse>
+        </material>
+      </visual>
+    </link>
+
+    <link name="east_wall">
+      <pose>2.1 0 0 0 0 1.5708</pose>
+      <collision name="collision">
+        <pose>0 0 0.35 0 0 0</pose>
+        <geometry><box><size>4.3 0.1 0.7</size></box></geometry>
+      </collision>
+      <visual name="visual">
+        <pose>0 0 0.35 0 0 0</pose>
+        <geometry><box><size>4.3 0.1 0.7</size></box></geometry>
+        <material>
+          <ambient>0.760784 0.662745 0.627451 1</ambient>
+          <diffuse>0.760784 0.662745 0.627451 1</diffuse>
+        </material>
+      </visual>
+    </link>
+
+    <link name="north_wall">
+      <pose>0 2.1 0 0 0 3.14159</pose>
+      <collision name="collision">
+        <pose>0 0 0.35 0 0 0</pose>
+        <geometry><box><size>4.3 0.1 0.7</size></box></geometry>
+      </collision>
+      <visual name="visual">
+        <pose>0 0 0.35 0 0 0</pose>
+        <geometry><box><size>4.3 0.1 0.7</size></box></geometry>
+        <material>
+          <ambient>0.760784 0.662745 0.627451 1</ambient>
+          <diffuse>0.760784 0.662745 0.627451 1</diffuse>
+        </material>
+      </visual>
+    </link>
+
+    <link name="west_wall">
+      <pose>-2.1 0 0 0 0 -1.5708</pose>
+      <collision name="collision">
+        <pose>0 0 0.35 0 0 0</pose>
+        <geometry><box><size>4.3 0.1 0.7</size></box></geometry>
+      </collision>
+      <visual name="visual">
+        <pose>0 0 0.35 0 0 0</pose>
+        <geometry><box><size>4.3 0.1 0.7</size></box></geometry>
+        <material>
+          <ambient>1 1 1 1</ambient>
+          <diffuse>1 1 1 1</diffuse>
+        </material>
+      </visual>
+    </link>
+  </model>
+</sdf>

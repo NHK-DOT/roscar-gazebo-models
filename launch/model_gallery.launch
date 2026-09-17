@@ -1,0 +1,14 @@
+<launch>
+  <arg name="gui" default="true"/>
+  <arg name="paused" default="false"/>
+
+  <env name="GAZEBO_MODEL_PATH"
+       value="$(env GAZEBO_MODEL_CATALOG)/competition_models:$(env GAZEBO_MODEL_CATALOG)/robot:$(optenv GAZEBO_MODEL_PATH)"/>
+
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="world_name" value="$(env GAZEBO_MODEL_CATALOG)/worlds/model_gallery.world"/>
+    <arg name="gui" value="$(arg gui)"/>
+    <arg name="paused" value="$(arg paused)"/>
+    <arg name="use_sim_time" value="true"/>
+  </include>
+</launch>

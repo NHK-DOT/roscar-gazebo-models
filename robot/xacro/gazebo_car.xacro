@@ -1,0 +1,89 @@
+<?xml version="1.0"?>
+<robot name="armbot" xmlns:xacro="http://wiki.ros.org/xacro">
+  <!-- Geometry and proportions match the armbot used by the recovered VM project. -->
+  <xacro:property name="PI" value="3.141592653589793"/>
+  <xacro:property name="base_link_length" value="0.30"/>
+  <xacro:property name="base_link_width" value="0.20"/>
+  <xacro:property name="base_link_height" value="0.08"/>
+  <xacro:property name="base_link_m" value="0.50"/>
+  <xacro:property name="wheel_radius" value="0.08"/>
+  <xacro:property name="wheel_length" value="0.04"/>
+  <xacro:property name="wheel_m" value="0.10"/>
+  <xacro:property name="wheel_x" value="${base_link_length * 0.30}"/>
+  <xacro:property name="wheel_y" value="${(base_link_width / 2 + wheel_length / 2) * 1.10}"/>
+
+  <material name="armbot_blue">
+    <color rgba="0 0 0.8 1"/>
+  </material>
+  <material name="armbot_black">
+    <color rgba="0 0 0 1"/>
+  </material>
+  <material name="black">
+    <color rgba="0 0 0 1"/>
+  </material>
+
+  <link name="base_footprint"/>
+
+  <link name="base_link">
+    <visual>
+      <geometry>
+        <box size="${base_link_length} ${base_link_width} ${base_link_height}"/>
+      </geometry>
+      <material name="armbot_blue"/>
+    </visual>
+    <collision>
+      <geometry>
+        <box size="${base_link_length} ${base_link_width} ${base_link_height}"/>
+      </geometry>
+    </collision>
+    <xacro:Box_inertial_matrix m="${base_link_m}" l="${base_link_length}" w="${base_link_width}" h="${base_link_height}"/>
+  </link>
+
+  <joint name="base_link2base_footprint" type="fixed">
+    <parent link="base_footprint"/>
+    <child link="base_link"/>
+    <origin xyz="0 0 ${wheel_radius}"/>
+  </joint>
+
+  <gazebo reference="base_link">
+    <material>Gazebo/Blue</material>
+  </gazebo>
+
+  <xacro:macro name="armbot_wheel" params="name x_pos y_pos">
+    <link name="${name}_wheel">
+      <visual>
+        <origin xyz="0 0 0" rpy="${PI / 2} 0 0"/>
+        <geometry>
+          <cylinder radius="${wheel_radius}" length="${wheel_length}"/>
+        </geometry>
+        <material name="armbot_black"/>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="${PI / 2} 0 0"/>
+        <geometry>
+          <cylinder radius="${wheel_radius}" length="${wheel_length}"/>
+        </geometry>
+      </collision>
+      <xacro:cylinder_inertial_matrix m="${wheel_m}" r="${wheel_radius}" h="${wheel_length}"/>
+    </link>
+    <joint name="${name}_wheel_joint" type="continuous">
+      <parent link="base_link"/>
+      <child link="${name}_wheel"/>
+      <origin xyz="${x_pos} ${y_pos} 0" rpy="0 0 0"/>
+      <axis xyz="0 1 0"/>
+      <dynamics damping="0.0" friction="0.0"/>
+    </joint>
+    <gazebo reference="${name}_wheel">
+      <material>Gazebo/DarkGrey</material>
+      <mu1>1.0</mu1>
+      <mu2>1.0</mu2>
+      <kp>1000000.0</kp>
+      <kd>1.0</kd>
+    </gazebo>
+  </xacro:macro>
+
+  <xacro:armbot_wheel name="front_left" x_pos="${wheel_x}" y_pos="${wheel_y}"/>
+  <xacro:armbot_wheel name="front_right" x_pos="${wheel_x}" y_pos="${-wheel_y}"/>
+  <xacro:armbot_wheel name="back_left" x_pos="${-wheel_x}" y_pos="${wheel_y}"/>
+  <xacro:armbot_wheel name="back_right" x_pos="${-wheel_x}" y_pos="${-wheel_y}"/>
+</robot>

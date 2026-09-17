@@ -1,0 +1,18 @@
+material MyGroundPlane/Image
+{
+  technique
+  {
+    pass
+    {
+      lighting off
+      cull_hardware none
+      cull_software none
+      texture_unit
+      {
+        texture route_ground_v2.png
+        filtering anisotropic
+        max_anisotropy 8
+      }
+    }
+  }
+}

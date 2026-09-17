@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<!--  Gazebo传感器配置定义文件  -->
+
+<!-- 激光雷达插件已在 gazebo_laser.xacro 中定义；此处只配置摄像头。 -->
+<robot xmlns:xacro="http://wiki.ros.org/xacro">
+  <!-- ============ 摄像头传感器配置 ============================ -->
+  
+  <!-- 摄像头传感器配置 -->
+  <gazebo reference="camera">
+    <!-- 摄像头传感器类型配置 -->
+    <sensor type="camera" name="camera_node">
+      <update_rate>30.0</update_rate> <!-- 摄像头更新频率（Hz） -->
+      
+      <!-- 摄像头基本参数设置 -->
+      <camera name="head">
+        <horizontal_fov>1.3962634</horizontal_fov>  <!-- 水平视场角（弧度） -->
+        
+        <!-- 图像参数 -->
+        <image>
+          <width>1280</width>          <!-- 图像宽度（像素） -->
+          <height>720</height>         <!-- 图像高度（像素） -->
+          <format>R8G8B8</format>      <!-- 图像格式 -->
+        </image>
+        
+        <!-- 裁剪参数 -->
+        <clip>
+          <near>0.02</near>            <!-- 近裁剪面（米） -->
+          <far>300</far>               <!-- 远裁剪面（米） -->
+        </clip>
+        
+        <!-- 噪声模型 -->
+        <noise>
+          <type>gaussian</type>         <!-- 高斯噪声类型 -->
+          <mean>0.0</mean>             <!-- 噪声均值 -->
+          <stddev>0.007</stddev>       <!-- 噪声标准差 -->
+        </noise>
+      </camera>
+      <!-- 核心插件 -->
+      <plugin name="gazebo_camera" filename="libgazebo_ros_camera.so">
+        <alwaysOn>true</alwaysOn>
+        <updateRate>0.0</updateRate>
+        <cameraName>camera</cameraName>
+        <imageTopicName>image_raw</imageTopicName>
+        <cameraInfoTopicName>camera_info</cameraInfoTopicName>
+        <frameName>camera</frameName>
+        <hackBaseline>0.07</hackBaseline>
+        <distortionK1>0.0</distortionK1>
+        <distortionK2>0.0</distortionK2>
+        <distortionK3>0.0</distortionK3>
+        <distortionT1>0.0</distortionT1>
+        <distortionT2>0.0</distortionT2>
+      </plugin>
+    </sensor>
+  </gazebo>
+</robot>

@@ -1,0 +1,47 @@
+<!-- 摄像头组件定义文件 -->
+
+<!-- 此文件定义了机器人的摄像头组件，包括视觉传感器和Gazebo插件  -->
+<robot name="my_camera" xmlns:xacro="http://wiki.ros.org/xacro">
+    <!-- ============ 摄像头尺寸参数 ============================== -->
+
+    <!-- 摄像头物理尺寸 -->
+    <xacro:property name="camera_length" value="0.01" />     <!-- 摄像头长度 -->
+    <xacro:property name="camera_width" value="0.025" />     <!-- 摄像头宽度 -->
+    <xacro:property name="camera_height" value="0.025" />   <!-- 摄像头高度 -->
+    
+    <!-- 摄像头安装位置参数 -->
+    <xacro:property name="camera_x" value="0.08" />           <!-- X方向偏移，控制摄像头前后位置 -->
+    <xacro:property name="camera_y" value="0.0" />            <!-- Y方向偏移，控制摄像头左右位置 -->
+
+    <!-- 摄像头高度计算，确保合适的视野高度 -->
+    <xacro:property name="camera_z" value="${base_link_height / 2 + camera_height / 2 + 0.2}" /> 
+    
+    <!-- 摄像头物理属性参数 -->
+    <xacro:property name="camera_m" value="0.01" />           <!-- 摄像头质量，影响动力学特性 --> 
+
+    <link name="camera">
+        <visual>
+            <geometry>
+                <box size="${camera_length} ${camera_width} ${camera_height}" />
+            </geometry>
+            <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+            <material name="black" />
+        </visual>
+        <collision>
+            <geometry>
+                <box size="${camera_length} ${camera_width} ${camera_height}" />
+            </geometry>
+            <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+        </collision>
+        <xacro:Box_inertial_matrix m="${camera_m}" l="${camera_length}" w="${camera_width}" h="${camera_height}" />
+    </link>
+
+    <joint name="camera2base_link" type="fixed">
+        <parent link="base_link" />
+        <child link="camera" />
+        <origin xyz="${camera_x} ${camera_y} ${camera_z}" />
+    </joint>
+    <gazebo reference="camera">
+        <material>Gazebo/Blue</material>
+    </gazebo>
+</robot>

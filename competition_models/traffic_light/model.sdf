@@ -1,0 +1,80 @@
+<?xml version="1.0"?>
+<sdf version="1.6">
+  <model name="traffic_light">
+    <static>true</static>
+    <link name="gantry">
+      <collision name="left_post_collision">
+        <pose>-0.34 0 0.32 0 0 0</pose>
+        <geometry><cylinder><radius>0.022</radius><length>0.64</length></cylinder></geometry>
+      </collision>
+      <collision name="right_post_collision">
+        <pose>0.34 0 0.32 0 0 0</pose>
+        <geometry><cylinder><radius>0.022</radius><length>0.64</length></cylinder></geometry>
+      </collision>
+      <collision name="crossbar_collision">
+        <pose>0 0 0.66 0 0 0</pose>
+        <geometry><box><size>0.75 0.045 0.045</size></box></geometry>
+      </collision>
+      <collision name="housing_collision">
+        <pose>0 0 0.55 0 0 0</pose>
+        <geometry><box><size>0.40 0.075 0.16</size></box></geometry>
+      </collision>
+
+      <visual name="left_foot">
+        <pose>-0.34 0 0.025 0 0 0</pose>
+        <geometry><cylinder><radius>0.055</radius><length>0.05</length></cylinder></geometry>
+        <material><ambient>0.06 0.07 0.07 1</ambient><diffuse>0.12 0.14 0.14 1</diffuse></material>
+      </visual>
+      <visual name="right_foot">
+        <pose>0.34 0 0.025 0 0 0</pose>
+        <geometry><cylinder><radius>0.055</radius><length>0.05</length></cylinder></geometry>
+        <material><ambient>0.06 0.07 0.07 1</ambient><diffuse>0.12 0.14 0.14 1</diffuse></material>
+      </visual>
+      <visual name="left_post">
+        <pose>-0.34 0 0.32 0 0 0</pose>
+        <geometry><cylinder><radius>0.022</radius><length>0.64</length></cylinder></geometry>
+        <material><ambient>0.16 0.18 0.18 1</ambient><diffuse>0.28 0.31 0.31 1</diffuse><specular>0.25 0.25 0.25 1</specular></material>
+      </visual>
+      <visual name="right_post">
+        <pose>0.34 0 0.32 0 0 0</pose>
+        <geometry><cylinder><radius>0.022</radius><length>0.64</length></cylinder></geometry>
+        <material><ambient>0.16 0.18 0.18 1</ambient><diffuse>0.28 0.31 0.31 1</diffuse><specular>0.25 0.25 0.25 1</specular></material>
+      </visual>
+      <visual name="crossbar">
+        <pose>0 0 0.66 0 0 0</pose>
+        <geometry><box><size>0.75 0.045 0.045</size></box></geometry>
+        <material><ambient>0.12 0.14 0.14 1</ambient><diffuse>0.24 0.27 0.27 1</diffuse><specular>0.25 0.25 0.25 1</specular></material>
+      </visual>
+      <visual name="left_hanger">
+        <pose>-0.14 0 0.615 0 0 0</pose>
+        <geometry><box><size>0.025 0.035 0.07</size></box></geometry>
+        <material><ambient>0.06 0.07 0.07 1</ambient><diffuse>0.12 0.14 0.14 1</diffuse></material>
+      </visual>
+      <visual name="right_hanger">
+        <pose>0.14 0 0.615 0 0 0</pose>
+        <geometry><box><size>0.025 0.035 0.07</size></box></geometry>
+        <material><ambient>0.06 0.07 0.07 1</ambient><diffuse>0.12 0.14 0.14 1</diffuse></material>
+      </visual>
+      <visual name="housing">
+        <pose>0 0 0.55 0 0 0</pose>
+        <geometry><box><size>0.40 0.075 0.16</size></box></geometry>
+        <material><ambient>0.008 0.010 0.010 1</ambient><diffuse>0.016 0.020 0.020 1</diffuse><specular>0.10 0.10 0.10 1</specular></material>
+      </visual>
+      <visual name="red_lens_off">
+        <pose>-0.12 -0.044 0.55 1.570796 0 0</pose>
+        <geometry><cylinder><radius>0.045</radius><length>0.014</length></cylinder></geometry>
+        <material><ambient>0.030 0.001 0.001 1</ambient><diffuse>0.045 0.002 0.002 1</diffuse></material>
+      </visual>
+      <visual name="yellow_lens_off">
+        <pose>0 -0.044 0.55 1.570796 0 0</pose>
+        <geometry><cylinder><radius>0.045</radius><length>0.014</length></cylinder></geometry>
+        <material><ambient>0.025 0.015 0.001 1</ambient><diffuse>0.040 0.024 0.002 1</diffuse></material>
+      </visual>
+      <visual name="green_lens_off">
+        <pose>0.12 -0.044 0.55 1.570796 0 0</pose>
+        <geometry><cylinder><radius>0.045</radius><length>0.014</length></cylinder></geometry>
+        <material><ambient>0.001 0.030 0.003 1</ambient><diffuse>0.002 0.045 0.004 1</diffuse></material>
+      </visual>
+    </link>
+  </model>
+</sdf>

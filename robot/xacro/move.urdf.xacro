@@ -1,0 +1,59 @@
+<!-- 机器人运动控制定义文件  -->
+
+<!-- 此文件定义了机器人的运动控制系统，包括传动装置和差分驱动控制器 -->
+<robot name="my_car_move" xmlns:xacro="http://wiki.ros.org/xacro">
+    <!-- ============ 传动系统实现 ================================ -->
+
+    <!-- 传动实现：用于连接控制器与关节 -->
+    <xacro:macro name="joint_trans" params="joint_name">
+        <!-- Transmission is important to link the joints and the controller -->
+        <transmission name="${joint_name}_trans">
+            <type>transmission_interface/SimpleTransmission</type>
+            <joint name="${joint_name}">
+                <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+            </joint>
+            <actuator name="${joint_name}_motor">
+                <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+                <mechanicalReduction>1</mechanicalReduction>
+            </actuator>
+        </transmission>
+    </xacro:macro>
+
+    <!-- ============ 驱动轮传动配置 ============================== -->
+    <!-- 为左右驱动轮配置传动装置 -->
+    <xacro:joint_trans joint_name="left_wheel2base_link" />   <!-- 左驱动轮传动 -->
+    <xacro:joint_trans joint_name="right_wheel2base_link" /> <!-- 右驱动轮传动 -->
+    
+    <!-- ============ 差分驱动控制器 ============================== -->
+    <!-- Gazebo差分驱动控制器配置 -->
+    <gazebo>
+        <plugin name="differential_drive_controller" filename="libgazebo_ros_diff_drive.so">
+            <!-- 调试和发布配置 -->
+            <rosDebugLevel>Debug</rosDebugLevel>                    <!-- ROS调试级别 -->
+            <publishWheelTF>true</publishWheelTF>                   <!-- 发布轮子TF -->
+            <robotNamespace>/mycar</robotNamespace>                 <!-- 插件私有命名空间 -->
+            <publishTf>1</publishTf>                                <!-- 发布TF变换 -->
+            <publishWheelJointState>true</publishWheelJointState>  <!-- 发布轮子关节状态 -->
+            <alwaysOn>true</alwaysOn>                               <!-- 始终保持运行 -->
+            <updateRate>50.0</updateRate>                          <!-- 更新频率（Hz） -->
+            <legacyMode>true</legacyMode>                          <!-- 传统模式 -->
+            
+            <!-- 关节配置 -->
+            <leftJoint>left_wheel2base_link</leftJoint>            <!-- 左驱动轮关节 -->
+            <rightJoint>right_wheel2base_link</rightJoint>         <!-- 右驱动轮关节 -->
+            
+            <!-- 物理参数 -->
+            <wheelSeparation>${base_link_width - wheel_length}</wheelSeparation> <!-- 车轮间距 -->
+            <wheelDiameter>${wheel_radius * 2}</wheelDiameter>     <!-- 车轮直径 -->
+            <broadcastTF>1</broadcastTF>                           <!-- 广播TF -->
+            <wheelTorque>80</wheelTorque>                          <!-- 轮子扭矩 -->
+            <wheelAcceleration>4.0</wheelAcceleration>             <!-- 轮子加速度 -->
+            
+            <!-- 话题配置 -->
+            <commandTopic>/cmd_vel</commandTopic>                   <!-- 运动控制话题 -->
+            <odometryFrame>odom</odometryFrame>                      <!-- 里程计坐标系 -->
+            <odometryTopic>/odom</odometryTopic>                   <!-- 里程计话题 -->
+            <robotBaseFrame>base_footprint</robotBaseFrame>        <!-- 机器人基座坐标系 -->
+        </plugin>
+    </gazebo>
+</robot>
