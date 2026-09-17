@@ -42,6 +42,8 @@ cd roscar-gazebo-models
 ./scripts/launch_gallery.sh
 ```
 
+启动脚本使用仓库自身位置，不包含固定的用户目录，因此可以放在任意电脑的任意目录。
+
 无界面运行：
 
 ```bash
@@ -55,6 +57,30 @@ ROSCAR_WORKSPACE=/path/to/roscar_first_ws ./scripts/launch_gallery.sh
 ```
 
 关闭时在启动终端按 `Ctrl+C`。
+
+## 部署全部模型
+
+只在当前终端启用模型：
+
+```bash
+source setup.bash
+```
+
+安装全部 11 个 Gazebo 模型到当前用户目录：
+
+```bash
+./scripts/install_models.sh
+```
+
+默认安装位置为 `~/.gazebo/models`。脚本会复制人物立牌、车辆/车牌立牌、围墙、两套地面、横向红绿灯主体、三组灯片和比赛小车；若目标位置已有同名模型，安装会停止且不会覆盖原文件。
+
+也可以指定其他 Gazebo 模型目录：
+
+```bash
+./scripts/install_models.sh /path/to/gazebo/models
+```
+
+人物检测和 OCR 权重保存在 `vision_models/`，小车的可编辑 Xacro、展开 URDF 和独立 SDF 保存在 `robot/`，克隆仓库后即可直接使用。
 
 ## 在其他 world 中使用
 

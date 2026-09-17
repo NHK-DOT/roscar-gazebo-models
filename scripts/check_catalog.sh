@@ -26,6 +26,8 @@ done
 test -f "$catalog_root/robot/xacro/gazebo_car_union.xacro"
 test -f "$catalog_root/vision_models/person/person.onnx"
 test -f "$catalog_root/vision_models/rapidocr/PP-OCRv6_det_small.onnx"
+test -f "$catalog_root/vision_models/rapidocr/PP-OCRv6_rec_small.onnx"
+test -f "$catalog_root/vision_models/rapidocr/ch_ppocr_mobile_v2.0_cls_mobile.onnx"
 test -f "$catalog_root/worlds/model_gallery.world"
 
 echo "Catalog check passed: ${#required_models[@]} Gazebo model entries plus robot sources and vision weights."
