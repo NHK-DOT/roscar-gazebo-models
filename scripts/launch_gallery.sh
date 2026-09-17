@@ -4,8 +4,11 @@ set -eo pipefail
 script_path=$(readlink -f -- "${BASH_SOURCE[0]}")
 catalog_root=$(cd -- "$(dirname -- "$script_path")/.." && pwd -P)
 
-runtime_candidates=(
-    "${ROSCAR_WORKSPACE:-}/scripts/runtime_env.sh"
+runtime_candidates=()
+if [[ -n ${ROSCAR_WORKSPACE:-} ]]; then
+    runtime_candidates+=("$ROSCAR_WORKSPACE/scripts/runtime_env.sh")
+fi
+runtime_candidates+=(
     "$catalog_root/../roscar_first_ws/scripts/runtime_env.sh"
     "$catalog_root/../roscar-first-handoff/workspace/scripts/runtime_env.sh"
 )
@@ -18,14 +21,17 @@ for candidate in "${runtime_candidates[@]}"; do
     fi
 done
 
-if [[ -z "$runtime_script" ]]; then
-    echo "ROSCar ROS 1 runtime_env.sh was not found." >&2
-    echo "Set ROSCAR_WORKSPACE to the roscar_first_ws directory." >&2
+if [[ -n "$runtime_script" ]]; then
+    source "$runtime_script"
+elif [[ -f /opt/ros/noetic/setup.bash ]]; then
+    source /opt/ros/noetic/setup.bash
+elif ! command -v roslaunch >/dev/null 2>&1; then
+    echo "ROS 1 Noetic was not found." >&2
+    echo "Install ROS Noetic or set ROSCAR_WORKSPACE to a compatible workspace." >&2
     exit 1
 fi
 
-source "$runtime_script"
-if [[ -f "$ROS1_WORKSPACE/devel/setup.bash" ]]; then
+if [[ -n ${ROS1_WORKSPACE:-} && -f "$ROS1_WORKSPACE/devel/setup.bash" ]]; then
     source "$ROS1_WORKSPACE/devel/setup.bash"
 fi
 
